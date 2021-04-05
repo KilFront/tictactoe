@@ -48,16 +48,20 @@
     pattern[y][x] = color;
 
     // 检查胜负
-    if(check()) {
+    if(check(pattern, color)) {
       alert(color == 2 ? "❌ is winner!" : '⭕️ is winner!');
     }
 
     // color 从1变2，从2变1
     color = 3 - color;
     show();
+
+    if (willWin(pattern, color)) {
+      console.log(color == 2 ? "❌ will win!" : '⭕️ will win!');
+    }
   }
 
-  function check(){
+  function check(pattern, color){
     // 3横3纵两斜
     // 行一样
     for(let i = 0; i < 3; i++){
@@ -107,7 +111,7 @@
     return false;
   }
 
-  function clone(pattern, color){
+  function clone(pattern){
     return JSON.parse(JSON.stringify(pattern));
   }
 
@@ -117,9 +121,13 @@
         if(pattern[i][j])
           continue;
         let tmp = clone(pattern);
-        t
+        tmp[i][j] = color;
+        if(check(tmp, color)) {
+          return true;
+        }
       }
     }
+    return false;
   }
 
   show(pattern);
